@@ -17,7 +17,7 @@ pt-BR:
     payment_due: Data de Vencimento
     paid_in: Pago Em
     invoice_id: "Número Boleto"
-    generate_bank_slip: Gerar boleto
+    view_bank_slip: Ver boleto
     store_url: URL da loja
     bank_slip:
       messages:

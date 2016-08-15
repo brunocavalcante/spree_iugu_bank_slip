@@ -17,7 +17,7 @@ en:
     payment_due: Due Date
     paid_in: Paid In
     invoice_id: Invoice ID
-    generate_bank_slip: Generate Billet
+    view_bank_slip: View Billet
     store_url: Store URL
     bank_slip:
       messages:

@@ -4,5 +4,5 @@
   <% if source.payment_due? %>
     <span><%= "#{Spree.t(:payment_due)}: #{ l source.payment_due }" %></span><br />
   <% end %>
-  <%= link_to Spree.t(:generate_bank_slip), bank_slip_path(source.id), target: '_blank', class: 'btn btn-sm btn-info' if source.pending? %>
+  <%= link_to Spree.t(:view_bank_slip), source.url, target: '_blank', class: 'btn btn-sm btn-info' if source.pending? %>
 <% else %>
