@@ -1,3 +1,5 @@
+require 'iugu'
+
 module SpreeIuguBankSlip
   class Engine < Rails::Engine
     require 'spree/core'
