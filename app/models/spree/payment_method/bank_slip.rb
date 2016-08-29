@@ -118,8 +118,8 @@ module Spree
             ActiveMerchant::Billing::Response.new(false, Spree.t('bank_slip.messages.source_fail'), {}, authorization: invoice.attributes['id'])
           end
         end
-      rescue
-        ActiveMerchant::Billing::Response.new(false, Spree.t('bank_slip.messages.iugu_fail'), {}, {})
+      #rescue
+      #  ActiveMerchant::Billing::Response.new(false, Spree.t('bank_slip.messages.iugu_fail'), {}, {})
       end
 
       # Captura o pagamento
