@@ -6,8 +6,6 @@ module Spree
     belongs_to :user
     belongs_to :payment_method
 
-    validates :invoice_id, presence: true
-
     # Displays what actions can be done according to payments method
     #
     # @author Isabella Santos

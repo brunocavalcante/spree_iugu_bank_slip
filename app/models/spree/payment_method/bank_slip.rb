@@ -112,7 +112,7 @@ module Spree
           source.url = invoice.attributes['secure_url']
           source.pdf = "#{invoice.attributes['secure_url']}.pdf"
 
-          if source.save
+          if source.invoice_id && source.url && source.save
             ActiveMerchant::Billing::Response.new(true, Spree.t('bank_slip.messages.successfully_authorized'), {}, authorization: invoice.attributes['id'])
           else
             ActiveMerchant::Billing::Response.new(false, Spree.t('bank_slip.messages.source_fail'), {}, authorization: invoice.attributes['id'])
