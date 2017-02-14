@@ -58,13 +58,7 @@ module Spree
                 phone_prefix: phone_prefix,
                 phone: phone,
                 email: gateway_options[:email],
-                address: {
-                    street: billing_address[:address1],
-                    city: billing_address[:city],
-                    state: billing_address[:state],
-                    country: 'Brasil',
-                    zip_code: billing_address[:zip]
-                }
+                address: format_billing_address(billing_address)
             }
         }
 
@@ -186,6 +180,19 @@ module Spree
       rescue
         ActiveMerchant::Billing::Response.new(false, Spree.t('bank_slip.messages.void_fail'), {}, {})
       end
+
+      private
+
+      def format_billing_address(address)
+        country = Spree::Country.find_by(iso: address[:country])
+        {
+          street: address[:address1],
+          city: address[:city],
+          state: address[:state],
+          country: country.try(:name),
+          zip_code: address[:zip]
+        }
+      end  
     end
   end
 end
