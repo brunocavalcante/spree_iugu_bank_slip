@@ -21,7 +21,7 @@ pt-BR:
     store_url: URL da loja
     bank_slip:
       messages:
-        iugu_fail: "Requisição falhou!"
+        iugu_fail: "Ocorreu um erro de comunicação, por favor tente novamente."
         source_fail: "Pagamento não pode ser salvo!"
         successfully_authorized: Pagamento autorizado com sucesso!
         successfully_captured: Pagamento capturado com sucesso!

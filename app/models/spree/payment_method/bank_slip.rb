@@ -112,7 +112,8 @@ module Spree
             ActiveMerchant::Billing::Response.new(false, Spree.t('bank_slip.messages.source_fail'), {}, authorization: invoice.attributes['id'])
           end
         end
-      rescue
+      rescue => e
+        deal_with_exception(e)
         ActiveMerchant::Billing::Response.new(false, Spree.t('bank_slip.messages.iugu_fail'), {}, {})
       end
 
@@ -192,7 +193,10 @@ module Spree
           country: country.try(:name),
           zip_code: address[:zip]
         }
-      end  
+      end
+
+      def deal_with_exception(error)
+      end
     end
   end
 end
