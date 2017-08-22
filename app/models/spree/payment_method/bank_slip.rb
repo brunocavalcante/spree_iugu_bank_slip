@@ -2,6 +2,9 @@ module Spree
   class PaymentMethod
     class PaymentMethod::BankSlip < PaymentMethod
 
+      preference :api_token, :string
+      preference :store_url, :string
+
       # Nao existe captura automatica para o metodo do tipo boleto
       def auto_capture
         false
@@ -26,6 +29,7 @@ module Spree
       # @return [ActiveMerchant::Billing::Response]
       #
       def authorize(amount, source, *args)
+        set_api_token
         gateway_options = args.first
         user = Spree::User.find gateway_options[:customer_id]
         doc_user = user.attributes[Spree::BankSlipConfig[:doc_customer_attr]] rescue ''
@@ -40,7 +44,7 @@ module Spree
           phone = billing_address[:phone]
         end
 
-        notification_url = Spree::BankSlipConfig[:store_url]
+        notification_url = preferred_store_url
         notification_url << Spree::Core::Engine.routes.url_helpers.bank_slip_status_changed_path(source.id)
 
         due_date = Date.today + Spree::BankSlipConfig[:days_to_due_date].days
@@ -125,6 +129,7 @@ module Spree
       # @return [ActiveMerchant::Billing::Response]
       #
       def capture(amount, response_code, gateway_options)
+        set_api_token
         bank_slip = Spree::BankSlip.find_by invoice_id: response_code
         bank_slip.amount = amount.to_d / 100
         bank_slip.paid_in = Date.today
@@ -143,6 +148,7 @@ module Spree
       # @return [ActiveMerchant::Billing::Response]
       #
       def void(response_code, _gateway_options)
+        set_api_token
         bank_slip = Spree::BankSlip.find_by invoice_id: response_code
         return ActiveMerchant::Billing::Response.new(false, Spree.t('bank_slip.messages.void_fail'), {}, {}) if bank_slip.nil?
 
@@ -166,6 +172,7 @@ module Spree
       # @return [ActiveMerchant::Billing::Response]
       #
       def cancel(response_code)
+        set_api_token
         bank_slip = Spree::BankSlip.find_by invoice_id: response_code
         return ActiveMerchant::Billing::Response.new(false, Spree.t('bank_slip.messages.void_fail'), {}, {}) if bank_slip.nil?
 
@@ -183,6 +190,10 @@ module Spree
       end
 
       private
+
+      def set_api_token
+        Iugu.api_key = preferred_api_token
+      end
 
       def format_billing_address(address)
         country = Spree::Country.find_by(iso: address[:country])

@@ -9,7 +9,6 @@ describe 'Bank Slip Settings', { type: :feature, js: true } do
     it 'should show bank slip settings' do
       visit spree.edit_admin_bank_slip_settings_path
 
-      expect(page).to have_selector '#iugu_api_token'
       expect(page).to have_selector '#doc_customer_attr'
     end
 
@@ -21,19 +20,8 @@ describe 'Bank Slip Settings', { type: :feature, js: true } do
 
     after(:all) do
       Spree::BankSlipConfig[:doc_customer_attr] = ''
-      Spree::BankSlipConfig[:iugu_api_token] = ''
       Spree::BankSlipConfig[:days_to_due_date] = 3
       Spree::BankSlipConfig[:ignore_due_email] = true
-      Spree::BankSlipConfig[:store_url] = true
-      Iugu.api_key = ''
-    end
-
-    it 'can edit Iugu api token' do
-      fill_in 'iugu_api_token', with: 'abc1234'
-      click_button 'Update'
-
-      expect(Spree::BankSlipConfig[:iugu_api_token]).to eq 'abc1234'
-      expect(find_field('iugu_api_token').value).to eq 'abc1234'
     end
 
     it 'can edit days to due date' do
@@ -58,14 +46,6 @@ describe 'Bank Slip Settings', { type: :feature, js: true } do
 
       expect(Spree::BankSlipConfig[:doc_customer_attr]).to eq 'authentication_token'
       expect(find_field('doc_customer_attr').value).to eq 'authentication_token'
-    end
-
-    it 'can edit store url' do
-      fill_in 'store_url', with: 'http://localhost'
-      click_button 'Update'
-
-      expect(Spree::BankSlipConfig[:store_url]).to eq 'http://localhost'
-      expect(find_field('store_url').value).to eq 'http://localhost'
     end
 
   end

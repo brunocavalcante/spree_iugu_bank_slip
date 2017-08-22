@@ -10,9 +10,6 @@ module SpreeIuguBankSlip
       # inicializa o objeto com as configuracoes do Iugu
       require 'spree/bank_slip_configuration'
       Spree::BankSlipConfig = Spree::BankSlipConfiguration.new
-
-      # Insere no objeto do Iugu o token salvo
-      Iugu.api_key = Spree::BankSlipConfig[:iugu_api_token]
     end
 
     initializer 'spree.iugu_bank_slip.payment_methods', :after => 'spree.register.payment_methods' do |app|

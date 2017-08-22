@@ -15,9 +15,6 @@ module Spree
           config[name] = value
         end
 
-        # Atualiza o token do Iugu
-        Iugu.api_key = params[:iugu_api_token] if params[:iugu_api_token].present?
-
         flash[:success] = Spree.t(:successfully_updated, resource: Spree.t(:bank_slip_settings))
         redirect_to edit_admin_bank_slip_settings_path
       end
